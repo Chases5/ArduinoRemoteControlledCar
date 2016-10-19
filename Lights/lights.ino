@@ -7,7 +7,6 @@ const byte TAIL_R = 10;
 const byte TAIL_V = 50;
 const byte BUTTON = 12;
 const int BUTTON_V = 255;
-boolean tailLightsOn;
 
 void setup() {
   Serial.begin(9600);
@@ -24,7 +23,6 @@ void setup() {
   analogWrite(TAIL_L, 0);
   
   pinMode(BUTTON, INPUT);
-  tailLightsOn = false;
 }
 
 void loop() {
