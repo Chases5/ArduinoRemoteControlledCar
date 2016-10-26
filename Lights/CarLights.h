@@ -1,7 +1,7 @@
 /*
 Written by: Tyler Carlile and Chase Skelton
 Date: 10/20/2016
-Last Modification: 10/20/2016
+Last Modification: 10/26/2016
 -------------------------------------------------------------
 CarLights class is used to create an object that 
 controls the lights of the car. The lights are, 
@@ -111,6 +111,24 @@ private:
 	Initializes the signals (turn indicators).
 	*/
 	void initSignals();
+	
+	/*
+	Used when the car is starting a turn. Turns on the proper signal and 
+	initializes the turn variables.
+	*/
+	void startTurn(CurrentTurnIndices toStart, int pinToStart, CurrentTurnIndices toStop, int pinToStop);
+	
+	/*
+	Used when the car is still turning. Determines when to flash the 
+	turn signal.
+	*/
+	void continueTurn(int activePin, int inactivePin);
+	
+	/*
+	Resets all of the variables used for the turn indicators and
+	turns them off.
+	*/
+	void resetSignals();
 };
 
 #endif

@@ -1,7 +1,7 @@
 /*
 Written by: Tyler Carlile and Chase Skelton
 Date: 10/20/2016
-Last Modification: 10/20/2016
+Last Modification: 10/26/2016
 */
 
 #ifndef CAR_LIGHTS_CPP
@@ -69,6 +69,14 @@ of the entire system.
 void CarLights::initSignals() {
 	pinMode(signalL, OUTPUT);
 	pinMode(signalR, OUTPUT);
+	this->resetSignals();
+}
+
+/*
+Used to turn off the turn signals and to reset all variables
+used in determining a turn.
+*/
+void CarLights::resetSignals() {
 	digitalWrite(signalL, LOW);
 	digitalWrite(signalR, LOW);
 	currentTurn[LEFT_LIGHT] = false; // not turning left
@@ -106,42 +114,41 @@ void CarLights::update(const bool& brakesApplied, bool turnLeft, bool turnRight)
 	Determines the current state of the turn indicators.
 	*/
 	if (turnLeft && !currentTurn[LEFT_LIGHT]) { // starting a left turn
-		currentTurn[LEFT_LIGHT] = true;
+		startTurn(LEFT_LIGHT, signalL, RIGHT_LIGHT, signalR);
+		/*currentTurn[LEFT_LIGHT] = true;
 		currentTurn[RIGHT_LIGHT] = false;
 		currentTurnTime = millis();
 		currentTurn[LIGHT_VALUE] = true;
 		digitalWrite(signalL, currentTurn[LIGHT_VALUE]);
-		digitalWrite(signalR, LOW);
+		digitalWrite(signalR, LOW);*/
 	} else if (turnRight && !currentTurn[RIGHT_LIGHT]) { // starting a right turn
-		currentTurn[LEFT_LIGHT] = false;
+		startTurn(RIGHT_LIGHT, signalR, LEFT_LIGHT, signalL);
+		/*currentTurn[LEFT_LIGHT] = false;
 		currentTurn[RIGHT_LIGHT] = true;
 		currentTurnTime = millis();
 		currentTurn[LIGHT_VALUE] = true;
 		digitalWrite(signalR, currentTurn[LIGHT_VALUE]);
-		digitalWrite(signalL, LOW);
+		digitalWrite(signalL, LOW);*/
 	} else if (turnLeft && currentTurn[LEFT_LIGHT]) { // continuing left turn
-		int msec = millis();
+		continueTurn(signalL, signalR);
+		/*int msec = millis();
 		if ((msec - currentTurnTime) >= SIGNAL_TIME) {
 			currentTurnTime = msec;
 			currentTurn[LIGHT_VALUE] = !currentTurn[LIGHT_VALUE];
 		}
 		digitalWrite(signalL, currentTurn[LIGHT_VALUE]);
-		digitalWrite(signalR, LOW);
+		digitalWrite(signalR, LOW);*/
 	} else if (turnRight && currentTurn[RIGHT_LIGHT]) { // continuing right turn
-		int msec = millis();
+		continueTurn(signalR, signalL);
+		/*int msec = millis();
 		if ((msec - currentTurnTime) >= SIGNAL_TIME) {
 			currentTurnTime = msec;
 			currentTurn[LIGHT_VALUE] = !currentTurn[LIGHT_VALUE];
 		}
 		digitalWrite(signalR, currentTurn[LIGHT_VALUE]);
-		digitalWrite(signalL, LOW);
+		digitalWrite(signalL, LOW);*/
 	} else { // no turn
-		currentTurnTime = -1;
-		currentTurn[LEFT_LIGHT] = false;
-		currentTurn[RIGHT_LIGHT] = false;
-		currentTurn[LIGHT_VALUE] = false;
-		digitalWrite(signalL, LOW);
-		digitalWrite(signalR, LOW);
+		resetSignals();
 	}
 	
 	/*
@@ -171,6 +178,34 @@ void CarLights::update(const bool& brakesApplied, bool turnLeft, bool turnRight)
 		analogWrite(tailL, BRAKE_VALUE);
 		analogWrite(tailR, BRAKE_VALUE);
 	}
+}
+
+/*
+Used to start a turn. This sets the appropriate variables and 
+turns on the turn indicator for the turn.
+*/
+void CarLights::startTurn(CurrentTurnIndices toStart, int pinToStart, CurrentTurnIndices toStop, int pinToStop) {
+	currentTurn[toStart] = true;
+	currentTurn[toStop] = false;
+	currentTurnTime = millis();
+	currentTurn[LIGHT_VALUE] = true;
+	digitalWrite(pinToStart, currentTurn[LIGHT_VALUE]);
+	digitalWrite(pinToStop, LOW);
+}
+
+/*
+Used to continue a turn. Determines when to flash the
+turn indicator and sets the values of the appropriate turn
+indicators.
+*/
+void CarLights::continueTurn(int activePin, int inactivePin) {
+	int msec = millis();
+	if ((msec - currentTurnTime) >= SIGNAL_TIME) {
+		currentTurnTime = msec;
+		currentTurn[LIGHT_VALUE] = !currentTurn[LIGHT_VALUE];
+	}
+	digitalWrite(activePin, currentTurn[LIGHT_VALUE]);
+	digitalWrite(inactivePin, LOW);
 }
 
 #endif
