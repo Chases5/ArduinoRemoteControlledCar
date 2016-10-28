@@ -1,7 +1,13 @@
 # Arduino Remote Controlled Car
 
+##Purpose
+
 ##Build List
-| __Parts__ | __Quantity__ | __Links__ (potentially deprocated) | 
+One could shop around to other sites or find kits that bundle some of the listed items but this is an overview nad quick links to what youwill need to build the car as shown.
+
+The links are not kept up to date and might be for items that are disconinued or out of stock.
+
+| __Parts__ | __Quantity__ | __Links__ | 
 | :--------: |:-----:| :------: |
 | `Arudino Mega` |  `1` | [Amazon] (https://www.amazon.com/gp/product/B0046AMGW0/ref=oh_aui_detailpage_o02_s00?ie=UTF8&psc=1) |
 | `Arduino Uno` |  `2` | [Amazon] (https://www.amazon.com/Arduino-Uno-R3-Microcontroller-A000066/dp/B008GRTSV6/ref=sr_1_3?s=electronics&ie=UTF8&qid=1477685552&sr=1-3&keywords=arduino+uno) |
