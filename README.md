@@ -9,7 +9,7 @@ The Purpose of this project is to creat a user friendly and extendable RC car wi
 ##Build List
 One could shop around to other sites or find kits that bundle some of the listed items but this is an overview nad quick links to what you will need to build the car as shown.
 
-**Things need that are not included** `Soldering station` `Safe area to build and test car` `Wire strippers` `Screw drivers`
+**Things need that are not included** `Soldering station` `Safe area to build and test car` `Wire strippers` `Screw drivers` `AA Batteries` `Patience`
 
 The links are not kept up to date and might be for items that are disconinued or out of stock.
 
