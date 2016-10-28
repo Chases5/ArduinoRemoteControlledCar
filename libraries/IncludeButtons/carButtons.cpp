@@ -1,25 +1,6 @@
-//Button Pins
-const int rightPin = 4;
-const int leftPin = 5;
-const int forwardPin = 6;
-const int reversePin = 7;
-enum{FORWARD,REVERSE,LEFT,RIGHT};
-
-void setup() {
-  initializeButtons();
-  Serial.begin(9600);
-}
-
-void loop() {
-  // put your main code here, to run repeatedly:
-     //int[] buttons = readButtons();
-     int buttons[4];
-     readButtons(buttons);
-  for(int i = 0; i <= RIGHT; i++){
-    Serial.println(buttons[i]);
-  }
-  delay(2000);
-}
+//#ifdef CARBUTTONS_CPP
+//#define CARBUTTONS_CPP
+#include "carButtons.h"
 
 void initializeButtons(){
   pinMode(rightPin, INPUT);
@@ -56,3 +37,4 @@ void readButtons(int* retVal){
   }
 }
 
+//#endif
