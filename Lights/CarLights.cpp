@@ -115,38 +115,12 @@ void CarLights::update(const bool& brakesApplied, bool turnLeft, bool turnRight)
 	*/
 	if (turnLeft && !currentTurn[LEFT_LIGHT]) { // starting a left turn
 		startTurn(LEFT_LIGHT, signalL, RIGHT_LIGHT, signalR);
-		/*currentTurn[LEFT_LIGHT] = true;
-		currentTurn[RIGHT_LIGHT] = false;
-		currentTurnTime = millis();
-		currentTurn[LIGHT_VALUE] = true;
-		digitalWrite(signalL, currentTurn[LIGHT_VALUE]);
-		digitalWrite(signalR, LOW);*/
 	} else if (turnRight && !currentTurn[RIGHT_LIGHT]) { // starting a right turn
 		startTurn(RIGHT_LIGHT, signalR, LEFT_LIGHT, signalL);
-		/*currentTurn[LEFT_LIGHT] = false;
-		currentTurn[RIGHT_LIGHT] = true;
-		currentTurnTime = millis();
-		currentTurn[LIGHT_VALUE] = true;
-		digitalWrite(signalR, currentTurn[LIGHT_VALUE]);
-		digitalWrite(signalL, LOW);*/
 	} else if (turnLeft && currentTurn[LEFT_LIGHT]) { // continuing left turn
 		continueTurn(signalL, signalR);
-		/*int msec = millis();
-		if ((msec - currentTurnTime) >= SIGNAL_TIME) {
-			currentTurnTime = msec;
-			currentTurn[LIGHT_VALUE] = !currentTurn[LIGHT_VALUE];
-		}
-		digitalWrite(signalL, currentTurn[LIGHT_VALUE]);
-		digitalWrite(signalR, LOW);*/
 	} else if (turnRight && currentTurn[RIGHT_LIGHT]) { // continuing right turn
 		continueTurn(signalR, signalL);
-		/*int msec = millis();
-		if ((msec - currentTurnTime) >= SIGNAL_TIME) {
-			currentTurnTime = msec;
-			currentTurn[LIGHT_VALUE] = !currentTurn[LIGHT_VALUE];
-		}
-		digitalWrite(signalR, currentTurn[LIGHT_VALUE]);
-		digitalWrite(signalL, LOW);*/
 	} else { // no turn
 		resetSignals();
 	}
