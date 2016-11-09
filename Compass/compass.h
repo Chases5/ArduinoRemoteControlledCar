@@ -1,17 +1,21 @@
+
+#ifndef COMPASS_H
+#define COMPASS_H
 #include <Wire.h>
 #include <Adafruit_Sensor.h>
 #include <Adafruit_LSM303_U.h>
 #include <math.h>
+#inclue "Arduino.h"
 
-/* Assign a unique ID to this sensor at the same time */
 Adafruit_LSM303_Mag_Unified mag = Adafruit_LSM303_Mag_Unified(12345);
 
-void setup(void)
-{
-  Wire.begin();
-  Serial.begin(9600);
-  mag.enableAutoRange(true);
-  mag.begin();
+void initCompass() {
+	#ifndef WIRE_BEGIN
+	#define WIRE_BEGIN
+	Wire.begin();
+	#endif
+	mag.enableAutoRange(true);
+	mag.begin();
 }
 
 void readMag(double* x, double* y, double* z) {
@@ -50,8 +54,9 @@ double determineHeading(double x, double y) {
   }
 }
 
-void loop(void) {
-  double x, y, z;
-  readMag(&x, &y, &z);
-  Serial.println(determineDirection(determineHeading(x, y)));
+String getCompassReading() {
+	double x, y, z;
+	readMag(&x, &y, &z);
+	return determineDirection(determineHeading(x, y));
 }
+#endif
