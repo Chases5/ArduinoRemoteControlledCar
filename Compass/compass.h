@@ -1,4 +1,12 @@
-
+//==================================================================
+// Written by Tyler Carlile and Chase Skelton
+// Date: 11/8/2016
+// Last Modification: 11/8/2016
+//==================================================================
+// Declares the magnetometer that will be used to get the direction
+// in which the car is facing. Functions allow user to get the
+// direction, heading, and the magnetometer reading.
+//==================================================================
 #ifndef COMPASS_H
 #define COMPASS_H
 #include <Wire.h>
@@ -9,6 +17,9 @@
 
 Adafruit_LSM303_Mag_Unified mag = Adafruit_LSM303_Mag_Unified(12345);
 
+/*
+ * Initializes the system to use the magnetometer.
+ */
 void initCompass() {
 	#ifndef WIRE_BEGIN
 	#define WIRE_BEGIN
@@ -18,6 +29,11 @@ void initCompass() {
 	mag.begin();
 }
 
+/*
+ * Reads the values from the magnetometer. The
+ * values are saved into the pointers that are
+ * passed in.
+ */
 void readMag(double* x, double* y, double* z) {
   sensors_event_t event;
   mag.getEvent(&event);
@@ -26,6 +42,10 @@ void readMag(double* x, double* y, double* z) {
   *z = event.magnetic.z;
 }
 
+/*
+ * Using a heading, the direction is determined
+ * and returned.
+ */
 String determineDirection(double heading) {
   if (heading >= 337.5 || heading <= 22.5) {
     return "N";
@@ -46,6 +66,10 @@ String determineDirection(double heading) {
   }
 }
 
+/*
+ * Determines the heading of the magnetometer using
+ * x and y. The heading is returned.
+ */
 double determineHeading(double x, double y) {
   if (y > 0) {
     return 90.0 - (atan(x / y)) * 180.0 / M_PI;
@@ -54,6 +78,10 @@ double determineHeading(double x, double y) {
   }
 }
 
+/*
+ * This method provides a simple method to call that
+ * will return a compass reading using the magnetometer.
+ */
 String getCompassReading() {
 	double x, y, z;
 	readMag(&x, &y, &z);
