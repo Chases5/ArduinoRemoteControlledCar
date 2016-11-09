@@ -13,7 +13,7 @@
 #include <Adafruit_Sensor.h>
 #include <Adafruit_LSM303_U.h>
 #include <math.h>
-#inclue "Arduino.h"
+#include "Arduino.h"
 
 Adafruit_LSM303_Mag_Unified mag = Adafruit_LSM303_Mag_Unified(12345);
 
