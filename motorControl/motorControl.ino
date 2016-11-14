@@ -6,11 +6,12 @@ AF_DCMotor motor2(2);
 AF_DCMotor motor3(3);
 AF_DCMotor motor4(4);
 
-void setup() 
-  Wire.begin(8);                // join i2c bus with address #8
-  Wire.onReceive(receiveEvent); // register event
-  Serial.begin(9600);
+void setup() {
+//  Wire.begin(8);                // join i2c bus with address #8
+  //Wire.onReceive(receiveEvent); // register event
+  //Serial.begin(9600);
 }
+/*
 void receiveEvent(int howMany) {
   while (1 < Wire.available()) { // loop through all but the last
     char c = Wire.read(); // receive byte as a character
@@ -20,6 +21,7 @@ void receiveEvent(int howMany) {
   Serial.println(x);         // print the integer
 }
 
+*/
 void driveForward(){
   motor1.setSpeed(250);
   motor2.setSpeed(250);
