@@ -2,17 +2,19 @@
 #include "Buzzer.h"
 #include "Compass.h"
 #include "Ultrasonic.h"
-#include "bluetoothData.h"
 #include <Wire.h>
+#include "carBluetooth.h"
+#include "bluetoothTransfer.h";
 
 bool brake = false;
 double accelX;
 double accelY;
+CarLights carLights(A15, 39, 41, 6, 7, 43, 45);
 
 void setup() {
   //Wire.begin();
   initSerial();
-  intiAccesories();
+  intiAccessories();
 }
 
 void initSerial(){
@@ -25,7 +27,7 @@ void intiAccessories(){
     initCompass();
     initUltrasonic(12,13);
     initAccelerometer();
-    CarLights carLights(A15, 39, 41, 6, 7, 43, 45);
+
 }
 
 void loop() {
@@ -35,21 +37,17 @@ void loop() {
   carLights.update(brake, false, true);
   setReverse(true);
   updateBuzzer();
-
   getAcceleration(&accelX,&accelY);
-
-  carData messageOut;
-  messageOut.xAcceleration = accelX;
-  messageOut.yAcceleration = accelY;
   String compassReading = getCompassReading();
-  messageOut.cardinal = compassReading[0];
-  if(compassReading.length() == 2){
-    messageOut.interCardinal = compassReading[1];
-  } else {
-    messageOut.interCardinal = -1;
-  }
-  Serial3.write(messageOut);
+
+  //Serial3.write(messageOut);
   unsigned char i2cMessage;
+  float x = 5.0;
+  float y = 4.0;
+  String data = "NW";
+  sendData(data,x,y);
+  
+  
   
   /*
   tone(5,500);

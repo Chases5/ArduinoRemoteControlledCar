@@ -7,7 +7,7 @@ void initializeBluetooth() {
 	Serial3.begin(9600);
 }
 
-void sendButtonData(String direction, float x, float y) {
+void sendData(String direction, float x, float y) {
 	unsigned char byte = directionToByte(direction);
 	unsigned char xBytes[4], yBytes[4];
 	floatToBytes(x, xBytes);
@@ -21,9 +21,10 @@ void sendButtonData(String direction, float x, float y) {
 	}
 }
 
-bool readData(String* direction, float* x, float* y) {
-	if (Serial.available()) {
-		
+bool readData(int* values) {
+	if (Serial3.available()) {
+		unsigned char packet = (unsigned char) Serial.read();
+		readPackageButtons(packet, values);
 		return true;
 	}
 	
