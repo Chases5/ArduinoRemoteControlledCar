@@ -46,11 +46,11 @@ void initAccelerometer() {
 /*
  * Gets the x and y values of the acceleration in Gs.
  */
-void getAcceleration(double* x, double* y) {
+void getAcceleration(float* x, float* y) {
 	sensors_event_t event;
 	accel.getEvent(&event);
-	*x = ((double) event.acceleration.x) / GRAVITY;
-	*y = ((double) event.acceleration.y) / GRAVITY;	
+	*x = ((float) event.acceleration.x) / GRAVITY;
+	*y = ((float) event.acceleration.y) / GRAVITY;	
 }
 
 /*
