@@ -23,16 +23,16 @@ unsigned char directionToByte(String direction) {
 String byteToDirection(unsigned char data) {
 	String retval = "";
 	if ((data & 0x08) == 0x08) {
-		retval.append("N");
+		retval.concat("N");
 	}
 	if ((data & 0x04) == 0x04) {
-		retval.append("S");
+		retval.concat("S");
 	}
 	if ((data & 0x02) == 0x02) {
-		retval.append("E");
+		retval.concat("E");
 	}
 	if ((data & 0x01) == 0x01) {
-		retval.append("W");
+		retval.concat("W");
 	}
 	return retval;
 }
