@@ -4,31 +4,26 @@
 #include "bluetoothTransfer.h"
 
 void initializeBluetooth() {
-	Serial.begin()
+	Serial3.begin(9600);
 }
 
-void sendButtonData(int* buttons) {
-	unsigned char data = packageButtonData(buttons);
-	Serial.print(data);
+void sendButtonData(String direction, float x, float y) {
+	unsigned char byte = directionToByte(direction);
+	unsigned char xBytes[4], yBytes[4];
+	floatToBytes(x, xBytes);
+	floatToBytes(y, yBytes);
+	Serial3.print(byte);
+	for (int i = 0; i < 4; i++) {
+		Serial3.print(xBytes[i]);
+	}
+	for (int i = 0; i < 4; i++) {
+		Serial3.print(yBytes[i]);
+	}
 }
 
 bool readData(String* direction, float* x, float* y) {
 	if (Serial.available()) {
-		unsigned char dir = (unsigned char) Serial.read();
-		unsigned char xBytes[4], yBytes[4];
-		xBytes[0] = (unsigned char) Serial.read();
-		xBytes[1] = (unsigned char) Serial.read();
-		xBytes[2] = (unsigned char) Serial.read();
-		xBytes[3] = (unsigned char) Serial.read();
 		
-		yBytes[0] = (unsigned char) Serial.read();
-		yBytes[1] = (unsigned char) Serial.read();
-		yBytes[2] = (unsigned char) Serial.read();
-		yBytes[3] = (unsigned char) Serial.read();
-		
-		*direction = byteToDirection(dir);
-		*x = bytesToFloat(xBytes);
-		*y = bytesToFloat(yBytes);
 		return true;
 	}
 	
