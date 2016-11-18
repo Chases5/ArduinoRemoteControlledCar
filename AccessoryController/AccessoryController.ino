@@ -10,7 +10,7 @@ double accelX;
 double accelY;
 
 void setup() {
-  Wire.begin();
+  //Wire.begin();
   initSerial();
   intiAccesories();
 }
