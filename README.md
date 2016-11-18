@@ -4,14 +4,14 @@
 
 The Purpose of this project is to creat a user friendly and extendable RC car with ~~advanced~~ awesome functionality that uses arduinos and off-the-shelf parts. A moderately skilled beginner should be able to fully assemble this kit. 
 
-**Adavanced Skills required:** Soldering and Arduino library inclusion.
+**Advanced Skills required:** Soldering and Arduino library inclusion.
 
 ##Build List
-One could shop around to other sites or find kits that bundle some of the listed items but this is an overview nad quick links to what you will need to build the car as shown.
+One could shop around to other sites or find kits that bundle some of the listed items but this is an overview and quick links to what you will need to build the car as shown.
 
 **Things need that are not included** `Soldering station` `Safe area to build and test car` `Wire strippers` `Screw drivers` `AA Batteries` `Patience`
 
-The links are not kept up to date and might be for items that are disconinued or out of stock.
+The links are not kept up to date and might be for items that are discontinued or out of stock.
 
 | __Parts__ | __Quantity__ | __Links__ | 
 | :--------: |:-----:| :------: |
