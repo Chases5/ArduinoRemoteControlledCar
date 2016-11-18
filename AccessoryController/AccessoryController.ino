@@ -27,10 +27,11 @@ void intiAccessories(){
     initCompass();
     initUltrasonic(12,13);
     initAccelerometer();
-
+    initializeBluetooth();
 }
 
 void loop() {
+  /*
   if (Serial.read() - 48 == 1) {
      brake = !brake; 
   }
@@ -41,11 +42,16 @@ void loop() {
   String compassReading = getCompassReading();
 
   //Serial3.write(messageOut);
+  */
   unsigned char i2cMessage;
   float x = 5.0;
   float y = 4.0;
-  String data = "NW";
+  String data = "SE";
   sendData(data,x,y);
+  delay(2000);
+  data = "N";
+  sendData(data,x,y);  
+  delay(2000);
   
   
   
