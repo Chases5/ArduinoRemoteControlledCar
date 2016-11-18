@@ -22,7 +22,7 @@ void initializeButtons(int right, int left, int forward, int reverse, int horn){
 }
 
 void readButtons(int* retVal){
-  retVal[FOWARD] = digitalRead(forwardPin);
+  retVal[FORWARD] = digitalRead(forwardPin);
   retVal[REVERSE] = digitalRead(reversePin);
   retVal[LEFT] = digitalRead(leftPin);
   retVal[RIGHT] = digitalRead(rightPin);

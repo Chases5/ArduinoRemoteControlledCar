@@ -22,8 +22,8 @@ void sendData(String direction, float x, float y) {
 }
 
 bool readData(int* values) {
-	if (Serial.available()) {
-		unsigned char packet = (unsigned char) Serial.read();
+	if (Serial3.available()) {
+		unsigned char packet = (unsigned char) Serial3.read();
 		readPackageButtons(packet, values);
 		return true;
 	}
