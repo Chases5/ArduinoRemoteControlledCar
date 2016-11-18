@@ -12,9 +12,9 @@ void sendData(int* buttons) {
 	Serial.print(data);
 }
 
-bool readData(String* direction, float* x, float* y) {
+bool readData(String* dir, float* x, float* y) {
 	if (Serial.available()) {
-		unsigned char dir = (unsigned char) Serial.read();
+		unsigned char charDir = (unsigned char) Serial.read();
 		unsigned char xBytes[4], yBytes[4];
 		for (int i = 0; i < 4; i++) {
 			xBytes[i]= (unsigned char) Serial.read();
@@ -23,7 +23,7 @@ bool readData(String* direction, float* x, float* y) {
 			yBytes[i] = (unsigned char) Serial.read();
 		}
 		
-		*direction = byteToDirection(dir);
+		*dir = byteToDirection(charDir);
 		*x = bytesToFloat(xBytes);
 		*y = bytesToFloat(yBytes);
 		
