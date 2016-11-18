@@ -6,10 +6,13 @@
 #include <Wire.h>
 
 bool brake = false;
-CarLights carLights(A15, 39, 41, 6, 7, 43, 45);
-carData test;
+double accelX;
+double accelY;
+
 void setup() {
-  inti
+  Wire.begin();
+  initSerial();
+  intiAccesories();
 }
 
 void initSerial(){
@@ -22,6 +25,7 @@ void intiAccessories(){
     initCompass();
     initUltrasonic(12,13);
     initAccelerometer();
+    CarLights carLights(A15, 39, 41, 6, 7, 43, 45);
 }
 
 void loop() {
@@ -29,18 +33,11 @@ void loop() {
      brake = !brake; 
   }
   carLights.update(brake, false, true);
-  //setHorn(true);
   setReverse(true);
   updateBuzzer();
-  Serial.println("Compass");
-  Serial.println(getCompassReading());
-  Serial.println(getDistance());
-  double accelX;
-  double accelY;
+
   getAcceleration(&accelX,&accelY);
-  Serial.print(accelX);
-  Serial.print(" ");
-  Serial.println(accelY);
+
   carData messageOut;
   messageOut.xAcceleration = accelX;
   messageOut.yAcceleration = accelY;
@@ -52,9 +49,19 @@ void loop() {
     messageOut.interCardinal = -1;
   }
   Serial3.write(messageOut);
-
-  //tone(5,500);
-  //delay(300);
-  //noTone(5);
-  //delay (300);
+  unsigned char i2cMessage;
+  
+  /*
+  tone(5,500);
+  delay(300);
+  noTone(5);
+  delay (300);
+  setHorn(true);
+  Serial.println("Compass");
+  Serial.println(getCompassReading());
+  Serial.println(getDistance());
+  Serial.print(accelX);
+  Serial.print(" ");
+  Serial.println(accelY);
+  */
 }
