@@ -38,7 +38,7 @@ void initCompass() {
 void initAccelerometer() {
 	#ifndef WIRE_BEGIN
 	#define WIRE_BEGIN
-	Wire.being()
+	Wire.begin();
 	#endif
 	accel.begin();
 }
@@ -49,8 +49,8 @@ void initAccelerometer() {
 void getAcceleration(double* x, double* y) {
 	sensors_event_t event;
 	accel.getEvent(&event);
-	*x = (double) event.acceleration.x / GRAVITY;
-	*y = (double) event.acceleration.y / GRAVITY;	
+	*x = ((double) event.acceleration.x) / GRAVITY;
+	*y = ((double) event.acceleration.y) / GRAVITY;	
 }
 
 /*

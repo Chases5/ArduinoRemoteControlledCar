@@ -16,6 +16,9 @@
 #include "Arduino.h"
 
 Adafruit_LSM303_Mag_Unified mag = Adafruit_LSM303_Mag_Unified(12345);
+Adafruit_LSM303_Accel_Unified accel = Adafruit_LSM303_Accel_Unified(54321);
+
+const double GRAVITY = 9.80665;
 
 /*
  * Initializes the system to use the magnetometer.
@@ -27,6 +30,27 @@ void initCompass() {
 	#endif
 	mag.enableAutoRange(true);
 	mag.begin();
+}
+
+/*
+ * Initializes the Accelerometer.
+ */
+void initAccelerometer() {
+	#ifndef WIRE_BEGIN
+	#define WIRE_BEGIN
+	Wire.begin();
+	#endif
+	accel.begin();
+}
+
+/*
+ * Gets the x and y values of the acceleration in Gs.
+ */
+void getAcceleration(double* x, double* y) {
+	sensors_event_t event;
+	accel.getEvent(&event);
+	*x = ((double) event.acceleration.x) / GRAVITY;
+	*y = ((double) event.acceleration.y) / GRAVITY;	
 }
 
 /*
