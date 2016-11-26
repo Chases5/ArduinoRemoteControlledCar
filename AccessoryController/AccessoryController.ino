@@ -10,7 +10,7 @@ bool brake = false;
 double accelX;
 double accelY;
 CarLights carLights(A15, 39, 41, 6, 7, 43, 45);
-bool* dataRead = new bool[5];
+bool dataRead []= {false,false,false,false,false};
 
 void setup() {
   //Wire.begin();
@@ -53,8 +53,7 @@ void loop() {
   //delay(2000);
   data = "N";
   //sendData(data,x,y);  
-  delay(2000);
-  //readData(dataRead);
+  update(dataRead, "SE");
   for(int i = 0 ; i < 5; i++){
     Serial.print(dataRead[i]);
     Serial.print(",");
