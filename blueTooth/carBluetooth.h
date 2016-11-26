@@ -15,6 +15,7 @@ bool update(bool* carSignals, String dir) {
 	}
 	unsigned char buttonData = (unsigned char) Serial3.read();
 	Serial3.print(sendData);
+	
 	while (!Serial3.available()) {
 		delay(1);
 	}

@@ -56,7 +56,7 @@ to the constructor) and to ground using a 220-ohm resistor.
 const int TAIL_VALUE = 50;
 const int BRAKE_VALUE = 127;
 const int PHOTOCELL_CUTOFF = 100;
-const int SIGNAL_TIME = 500; // milliseconds
+const unsigned long SIGNAL_TIME = 500; // milliseconds
 
 /*
 Enum to hold indices for currentTurn array.
@@ -90,7 +90,7 @@ private:
 	int signalL;
 	int signalR;
 	bool currentTurn[3];
-	int currentTurnTime;
+	unsigned long currentTurnTime;
 	
 	/*
 	Initializes the head lights.
