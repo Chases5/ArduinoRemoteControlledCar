@@ -10,6 +10,7 @@ bool brake = false;
 double accelX;
 double accelY;
 CarLights carLights(A15, 39, 41, 6, 7, 43, 45);
+bool* dataRead = new bool[5];
 
 void setup() {
   //Wire.begin();
@@ -48,15 +49,18 @@ void loop() {
   float y = 5.0;
   //getAcceleration(x,y);
   String data = "SE";
-  sendData(data,x,y);
-  delay(2000);
+  //sendData(data,x,y);
+  //delay(2000);
   data = "N";
-  sendData(data,x,y);  
+  //sendData(data,x,y);  
   delay(2000);
-  
-  
+  //readData(dataRead);
+  for(int i = 0 ; i < 5; i++){
+    Serial.print(dataRead[i]);
+    Serial.print(",");
+  }
+  Serial.println("");
   /*
-   int[] dataRead = new int[8];
   tone(5,500);
   delay(300);
   noTone(5);
@@ -70,3 +74,22 @@ void loop() {
   Serial.println(accelY);
   */
 }
+
+void processButtonCommands(){
+    bool toMotor [] = {false,false,false,false};
+    if(dataRead[0] == true){
+      setHorn(true);
+    }
+    else{
+      setHorn(false);
+    }
+    for(int i = 0; i < 5; i ++){
+      toMotor[i] = dataRead[i + 1];
+    }
+    sendButtonCommands(toMotor);
+}
+
+void sendButtonCommands(bool* motorData){
+  
+}
+
