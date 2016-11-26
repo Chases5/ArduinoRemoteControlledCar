@@ -1,5 +1,5 @@
-#ifndef BLUETOOTH_TRANSFER
-#define BLUETOOTH_TRANSFER
+#ifndef BLUETOOTH_trans
+#define BLUETOOTH_trans
 #include "button.h"
 #define PRECISION 100
 #define MASK 0x01
@@ -38,10 +38,10 @@ String byteToDirection(unsigned char data) {
 }
 
 void floatToBytes(float val, unsigned char* bytes) {
-	int transfer = (int) (val * PRECISION);
+	int trans = (int) (val * PRECISION);
 	for (int i = 3; i >= 0; i--) {
-		*(bytes + i) = (unsigned char) (0 | transfer);
-		transfer >>= 8;
+		*(bytes + i) = (unsigned char) (0 | trans);
+		trans >>= 8;
 	}
 }
 

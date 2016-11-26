@@ -44,8 +44,9 @@ void loop() {
   //Serial3.write(messageOut);
   */
   unsigned char i2cMessage;
-  float x = 5.0;
-  float y = 4.0;
+  float x = 4.0;
+  float y = 5.0;
+  //getAcceleration(x,y);
   String data = "SE";
   sendData(data,x,y);
   delay(2000);
@@ -54,8 +55,8 @@ void loop() {
   delay(2000);
   
   
-  
   /*
+   int[] dataRead = new int[8];
   tone(5,500);
   delay(300);
   noTone(5);
