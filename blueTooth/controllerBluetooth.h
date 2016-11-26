@@ -7,29 +7,21 @@ void initializeBluetooth() {
 	Serial.begin(9600);
 }
 
-void sendData(int* buttons) {
-	unsigned char data = packageButtonData(buttons);
-	Serial.print(data);
-}
-
-bool readData(String* dir, float* x, float* y) {
+bool update(String* dir, int* buttons) {
 	if (Serial.available()) {
-		unsigned char charDir = (unsigned char) Serial.read();
-		unsigned char xBytes[4], yBytes[4];
-		for (int i = 0; i < 4; i++) {
-			xBytes[i]= (unsigned char) Serial.read();
+		char value = (char) Serial.read();
+		if (value == 'R') {
+			unsigned char sendData = packageButtonData(buttons);
+			Serial.print(sendData);
+			while (!Serial.available()) {
+				delay(1);
+			}
+			unsigned char directionByte = (unsigned char) Serial.read();
+			Serial.print("A");
+			*dir = byteToDirection(directionByte);
+			return true;
 		}
-		for (int i = 0; i < 4; i++) {
-			yBytes[i] = (unsigned char) Serial.read();
-		}
-		
-		*dir = byteToDirection(charDir);
-		*x = bytesToFloat(xBytes);
-		*y = bytesToFloat(yBytes);
-		
-		return true;
 	}
-	
 	return false;
 }
 #endif
