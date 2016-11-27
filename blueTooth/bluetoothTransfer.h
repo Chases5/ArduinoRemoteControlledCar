@@ -64,9 +64,9 @@ void packageButtonData(int* buttons, unsigned char* bytes) {
 	}
 	
 	first += (8 * buttons[GO]);
-	first += (4 * button[REVERSE]);
-	first += (2 * button[LEFT]);
-	first += (1 * button[RIGHT]);
+	first += (4 * buttons[REVERSE]);
+	first += (2 * buttons[LEFT]);
+	first += (1 * buttons[RIGHT]);
 	*(bytes + 0) = first;
 }
 
