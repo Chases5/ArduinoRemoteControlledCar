@@ -11,8 +11,10 @@ bool update(String* dir, int* buttons) {
 	if (Serial.available()) {
 		char value = (char) Serial.read();
 		if (value == 'R') {
-			unsigned char sendData = packageButtonData(buttons);
-			Serial.print(sendData);
+			unsigned char[2] sendBytes;
+			packageButtonData(buttons, sendBytes);
+			Serial.print(sendBytes[0]);
+			Serial.print(sendBytes[1]);
 			unsigned long timeout = millis();
 			while (!Serial.available()) {
 				delay(1);

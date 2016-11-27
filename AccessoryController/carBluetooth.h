@@ -17,14 +17,15 @@ bool update(bool* carSignals, String dir) {
     }
   }
   char readArray [2];
-  readArray[0] = (char)Serial3.read();
   readArray[1] = (char)Serial3.read();
+  readArray[0] = (char)Serial3.read();
   
   readPackageButtons(readArray, carSignals);
   for(int i = 0; i < 5; i++){
-    Serial.print(carSignals);
+    Serial.print(carSignals[i]);
     Serial.print(",");
   }
+  Serial.println("");
   Serial3.print(sendData);
   
   timeout = millis();
