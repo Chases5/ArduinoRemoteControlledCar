@@ -1,5 +1,6 @@
 #include <LiquidCrystal.h>
 #include "controllerBluetooth.h"
+#include "button.h"
 
 LiquidCrystal lcd(12, 11, 8, 7, 6, 5);
 void setup() {
@@ -8,11 +9,13 @@ void setup() {
   // Print a message to the LCD.
   pinMode(13, OUTPUT);
   Serial.begin(9600);
+  initializeButtons(2, 3, 9, 10, 4);
 }
 
 void loop() {
   // put your main code here, to run repeatedly:
-  int s[4] = {1, 0, 1, 0};
+  int s[5] = {0, 0, 0, 0, 0};
+  readButtons(s);
   analogWrite(13, 100);
   test(s);
 }
@@ -40,6 +43,10 @@ void test(int* b) {
 }
 unsigned char packageButtonsData(int* buttons) {
   unsigned char retval = 0;
+  if (buttons[HORN]) {
+    retval += 16;
+  }
+  
   if (buttons[GO]) {
     retval += 8;
   }
