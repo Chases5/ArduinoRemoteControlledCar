@@ -20,7 +20,7 @@ void setup() {
 
 void initSerial(){
     Serial.begin(9600);
-    Serial3.begin(9600);
+    Serial2.begin(9600);
 }
 
 void intiAccessories(){
@@ -42,8 +42,9 @@ void loop() {
   getAcceleration(&accelX,&accelY);
   String compassReading = getCompassReading();
 
-  //Serial3.write(messageOut);
+  //Serial2.write(messageOut);
   */
+ /*
   unsigned char i2cMessage;
   float x = 4.0;
   float y = 5.0;
@@ -53,12 +54,17 @@ void loop() {
   //delay(2000);
   data = "N";
   //sendData(data,x,y);  
-  update(dataRead, "SE");
-  for(int i = 0 ; i < 5; i++){
-    //Serial.print(dataRead[i]);
-    //Serial.print(",");
-  }
+  carUpdate(dataRead, "SE");
+    for(int i = 0 ; i < 5; i++){
+      Serial.print(dataRead[i]);
+      Serial.print(",");
+    }
+    Serial.println("");
   //Serial.println("");
+  */
+  TestUpdate(dataRead, "SE");
+
+  
   /*
   tone(5,500);
   delay(300);
@@ -86,6 +92,13 @@ void processButtonCommands(){
       toMotor[i] = dataRead[i + 1];
     }
     sendButtonCommands(toMotor);
+}
+bool TestUpdate(bool* carSignals, String dir) {
+    Serial2.print('R');
+    if(Serial2.available()){
+      Serial.print((char)Serial2.read());
+    }
+    return true;
 }
 
 void sendButtonCommands(bool* motorData){
