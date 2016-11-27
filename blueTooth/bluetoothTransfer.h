@@ -55,51 +55,21 @@ float bytesToFloat(unsigned char* bytes) {
 	return ((float) retval) / ((float) PRECISION);
 }
 
-void packageButtonData(int* buttons, unsigned char* bytes) {
-	unsigned char first = 0;
-	if (buttons[HORN] == 1) {
-		*(bytes + 1) = 1;
-	} else {
-		*(bytes + 1) = 0;
-	}
-	
-	first += (8 * buttons[GO]);
-	first += (4 * buttons[REVERSE]);
-	first += (2 * buttons[LEFT]);
-	first += (1 * buttons[RIGHT]);
-	*(bytes + 0) = first;
+unsigned char packageButtonData(int* buttons) {
+	unsigned char retval = 0;
+	retval += (16 * buttons[GO]);
+	retval += (8 * buttons[REVERSE]);
+	retval += (4 * buttons[LEFT]);
+	retval += (2 * buttons[RIGHT]);
+	retval += (1 * buttons[HORN]);
+	return retval;
 }
 
-void readPackageButtons(unsigned char* packet, bool* values) {
-	if (*(packet + 1) == 1) {
-		values[HORN] = true;
-	} else {
-		values[HORN] = false;
-	}
-	
-	unsigned char first = *packet;
-	if ((first & 0x01) == 0x01) {
-		values[RIGHT] = true;
-	} else {
-		values[RIGHT] = false;
-	}
-	
-	if ((first & 0x02) == 0x02) {
-		values[LEFT] = true;
-	} else {
-		values[LEFT] = false;
-	}
-	
-	if ((first & 0x04) == 0x04) {
-		values[REVERSE] = true;
-	} else {
-		values[REVERSE] = false;
-	}
-	
-	if ((first & 0x08) == 0x08) {
-		values[GO] = true;
-	} else {
-		values[GO] = false;
-	}
+void readPackageButtons(unsigned char packet, bool* values) {
+	values[GO] = (packet & 0x10) == 0x10;
+	values[REVERSE] = (packet & 0x08) == 0x08;
+	values[LEFT] = (packet & 0x04) == 0x04;
+	values[RIGHT] = (packet & 0x02) == 0x02;
+	values[HORN] = (packet & 0x01) == 0x01;
 }
 #endif

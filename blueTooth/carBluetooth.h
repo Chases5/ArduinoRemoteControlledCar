@@ -17,18 +17,8 @@ bool update(bool* carSignals, String dir) {
 		}
 	}
 	unsigned char buttonData = (unsigned char) Serial3.read();
-	Serial3.print(sendData);
-	timeout = millis();
-	while (!Serial3.available()) {
-		delay(1);
-		if ((millis() - timeout) >= TIMEOUT) {
-			return false;
-		}
-	}
-	char response = (char) Serial3.read();
-	if (response == 'A') {
-		return true;
-	}
-	return false;
+	Serial3.write(sendData);
+	readPackageButtons(buttonData, carSignals);
+	return true;
 }
 #endif
