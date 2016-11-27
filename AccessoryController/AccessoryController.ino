@@ -63,7 +63,8 @@ void loop() {
   //Serial.println("");
   */
   //carUpdate(dataRead, "SE");
-  test("SE");
+  String compassReading = getCompassReading();
+  carUpdate(compassReading);
   /*
   tone(5,500);
   delay(300);
@@ -79,7 +80,7 @@ void loop() {
   */
 }
 
-void test(String dir){
+void carUpdate(String dir){
   Serial2.print("R");
   unsigned long timeout = millis();
   while(!Serial2.available()){
@@ -89,7 +90,15 @@ void test(String dir){
     }
     delay(1);
   }
-  Serial.print(Serial2.read());
+  unsigned char button = Serial2.read();
+  readPackButtons(button, dataRead);
+  
+  for(int i = 0 ; i < 5; i++){
+      Serial.print(dataRead[i]);
+      Serial.print(",");
+    }
+    Serial.println("");
+    
   unsigned char d = dirToByte(dir);
   Serial2.write(d);
   timeout = millis();
@@ -134,5 +143,13 @@ unsigned char dirToByte(String dir) {
     }
   }
   return charByte;
+}
+
+void readPackButtons(unsigned char packet, bool* values) {
+  values[HORN] = (packet & 0x10) == 0x10;
+  values[GO] = (packet & 0x08) == 0x08;
+  values[REVERSE] = (packet & 0x04) == 0x04;
+  values[LEFT] = (packet & 0x02) == 0x02;
+  values[RIGHT] = (packet & 0x01) == 0x01;
 }
 

@@ -73,6 +73,7 @@ unsigned char packageButtonData(int* buttons) {
 }
 
 void readPackageButtons(unsigned char packet, bool* values) {
+  values[HORN] = (packet & 0x10) == 0x10;
 	values[GO] = (packet & 0x08) == 0x08;
 	values[REVERSE] = (packet & 0x04) == 0x04;
 	values[LEFT] = (packet & 0x02) == 0x02;
