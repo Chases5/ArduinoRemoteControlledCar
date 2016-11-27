@@ -81,25 +81,25 @@ void readPackageButtons(unsigned char* packet, bool* values) {
 	if ((first & 0x01) == 0x01) {
 		values[RIGHT] = true;
 	} else {
-		vaues[RIGHT] = false;
+		values[RIGHT] = false;
 	}
 	
 	if ((first & 0x02) == 0x02) {
 		values[LEFT] = true;
 	} else {
-		vaues[LEFT] = false;
+		values[LEFT] = false;
 	}
 	
 	if ((first & 0x04) == 0x04) {
 		values[REVERSE] = true;
 	} else {
-		vaues[REVERSE] = false;
+		values[REVERSE] = false;
 	}
 	
 	if ((first & 0x08) == 0x08) {
 		values[GO] = true;
 	} else {
-		vaues[Go] = false;
+		values[Go] = false;
 	}
 }
 #endif
