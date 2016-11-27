@@ -3,15 +3,16 @@
 #include "button.h"
 #define PRECISION 100
 #define MASK 0x01
+#define TIMEOUT 1000
 
-unsigned char directionToByte(String direction) {
+unsigned char directionToByte(String dir) {
 	unsigned char charByte = 0;
-	for (int i = 0; i < direction.length(); i++) {
-		if (direction[i] == 'N') {
+	for (int i = 0; i < dir.length(); i++) {
+		if (dir[i] == 'N') {
 			charByte |= 0x08;
-		} else if (direction[i] == 'S') {
+		} else if (dir[i] == 'S') {
 			charByte |= 0x04;
-		} else if (direction[i] == 'E') {
+		} else if (dir[i] == 'E') {
 			charByte |= 0x02;
 		} else {
 			charByte |= 0x01;

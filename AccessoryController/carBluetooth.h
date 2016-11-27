@@ -2,38 +2,43 @@
 #define CAR_BLUETOOTH
 #include "Arduino.h"
 #include "bluetoothTransfer.h"
-
 void initializeBluetooth() {
-	Serial3.begin(9600);
+  Serial3.begin(9600);
 }
 
 bool update(bool* carSignals, String dir) {
-	unsigned char sendData = directionToByte(dir);
-	Serial3.print("R");
-	while (!Serial3.available()) {
-		delay(1);
-	}
-	//unsigned char buttonData = (unsigned char) Serial3.read();
-  //Serial.println(buttonData);
-  char lowChar = (char)Serial3.read();
-  char highChar = (char)Serial3.read();
-  int dataInput;
-  if(highChar < 0){
-    dataInput = (int)lowChar - 48;
+  unsigned char sendData = directionToByte(dir);
+  Serial3.print("R");
+  unsigned long timeout = millis();
+  while (!Serial3.available()) {
+    delay(1);
+    if ((millis() - timeout) >= TIMEOUT) {
+      return false;
+    }
   }
-  else{
-    int temp = 
-  }
+  char readArray [2];
+  readArray[0] = (char)Serial3.read();
+  readArray[1] = (char)Serial3.read();
   
-	while (!Serial3.available()) {
-		delay(1);
-	}
-	char response = (char) Serial3.read();
-  Serial.println(response);
-  //readPackageButtons(buttonData, carSignals);
-	if (response == 'A') {
-		return true;
-	}
-	return false;
+  readPackageButtons(readArray, carSignals);
+  for(int i = 0; i < 5; i++){
+    Serial.print(carSignals);
+    Serial.print(",");
+  }
+  Serial3.print(sendData);
+  
+  timeout = millis();
+  while (!Serial3.available()) {
+    delay(1);
+    if ((millis() - timeout) >= TIMEOUT) {
+      return false;
+    }
+  }
+  char response = (char) Serial3.read();
+  if (response == 'A') {
+    return true;
+  }
+  return false;
 }
 #endif
+

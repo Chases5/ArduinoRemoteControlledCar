@@ -173,7 +173,7 @@ turn indicator and sets the values of the appropriate turn
 indicators.
 */
 void CarLights::continueTurn(int activePin, int inactivePin) {
-	int msec = millis();
+	unsigned long msec = millis();
 	if ((msec - currentTurnTime) >= SIGNAL_TIME) {
 		currentTurnTime = msec;
 		currentTurn[LIGHT_VALUE] = !currentTurn[LIGHT_VALUE];

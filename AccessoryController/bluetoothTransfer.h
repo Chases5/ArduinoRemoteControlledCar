@@ -3,15 +3,16 @@
 #include "button.h"
 #define PRECISION 100
 #define MASK 0x01
+#define TIMEOUT 1000
 
-unsigned char directionToByte(String direction) {
+unsigned char directionToByte(String dir) {
 	unsigned char charByte = 0;
-	for (int i = 0; i < direction.length(); i++) {
-		if (direction[i] == 'N') {
+	for (int i = 0; i < dir.length(); i++) {
+		if (dir[i] == 'N') {
 			charByte |= 0x08;
-		} else if (direction[i] == 'S') {
+		} else if (dir[i] == 'S') {
 			charByte |= 0x04;
-		} else if (direction[i] == 'E') {
+		} else if (dir[i] == 'E') {
 			charByte |= 0x02;
 		} else {
 			charByte |= 0x01;
@@ -56,13 +57,13 @@ float bytesToFloat(unsigned char* bytes) {
 
 unsigned char packageButtonData(int* buttons) {
 	unsigned char retval = 0;
-	if (buttons[GO] && !buttons[REVERSE]) {
+	if (buttons[GO]) {
 		retval += 16;
 	}
 	if (buttons[REVERSE] && !buttons[GO]) {
 		retval += 8;
 	}
-	if (buttons[LEFT] && !buttons[RIGHT]) {
+	if (buttons[LEFT]) {
 		retval += 4;
 	}
 	if (buttons[RIGHT] && !buttons[LEFT]) {
@@ -75,31 +76,31 @@ unsigned char packageButtonData(int* buttons) {
 }
 
 void readPackageButtons(unsigned char packet, bool* values) {
-	if ((packet & 0x01) == 0x01) {
+	if (packet & 0x01) {
 		values[HORN] = true;
 	} else {
 		values[HORN] = false;
 	}
 	
-	if ((packet & 0x02) == 0x02) {
+	if (packet & 0x02) {
 		values[RIGHT] = true;
 	} else {
 		values[RIGHT] = false;
 	}
 	
-	if ((packet & 0x04) == 0x04) {
+	if (packet & 0x04) {
 		values[LEFT] = true;
 	} else {
 		values[LEFT] = false;
 	}
 	
-	if ((packet & 0x08) == 0x08) {
+	if (packet & 0x08) {
 		values[REVERSE] = true;
 	} else {
 		values[REVERSE] = false;
 	}
 	
-	if ((packet & 0x10) == 0x10) {
+	if (packet & 0x10) {
 		values[GO] = true;
 	} else {
 		values[GO] = false;
