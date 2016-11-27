@@ -3,6 +3,7 @@
 #include "button.h"
 #define PRECISION 100
 #define MASK 0x01
+#define TIMEOUT 1000
 
 unsigned char directionToByte(String dir) {
 	unsigned char charByte = 0;
