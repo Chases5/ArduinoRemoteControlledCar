@@ -7,7 +7,15 @@ void initializeBluetooth() {
 }
 
 bool carUpdate(bool* carSignals, String dir) {
-	  Serial.print(Serial2.read());
+    Serial2.print('R');
+    //while(!Serial2.available()){
+	  //  delay(1);
+    //}
+    //if(Serial2.available()){
+      Serial.println((char)Serial2.read());
+    //}
+    //unsigned char compassData = directionToByte(dir);
+    //Serial2.write(compassData);
     return true;
 }
 #endif

@@ -62,9 +62,8 @@ void loop() {
     Serial.println("");
   //Serial.println("");
   */
-  TestUpdate(dataRead, "SE");
-
-  
+  //carUpdate(dataRead, "SE");
+  test("SE");
   /*
   tone(5,500);
   delay(300);
@@ -80,6 +79,29 @@ void loop() {
   */
 }
 
+void test(String dir){
+  Serial2.print("R");
+  unsigned long timeout = millis();
+  while(!Serial2.available()){
+    //Serial.print(Serial2.available());
+    if(millis() - timeout >= 1000){
+      return;
+    }
+    delay(1);
+  }
+  Serial.print(Serial2.read());
+  unsigned char d = dirToByte(dir);
+  Serial2.write(d);
+  timeout = millis();
+  while(Serial2.read() != 'A'){
+    //Serial.print(Serial2.available());
+    if(millis() - timeout >= 1000){
+      return;
+    }
+    delay(1);
+  }
+}
+
 void processButtonCommands(){
     bool toMotor [] = {false,false,false,false};
     if(dataRead[0] == true){
@@ -93,15 +115,24 @@ void processButtonCommands(){
     }
     sendButtonCommands(toMotor);
 }
-bool TestUpdate(bool* carSignals, String dir) {
-    Serial2.print('R');
-    if(Serial2.available()){
-      Serial.print((char)Serial2.read());
-    }
-    return true;
-}
 
 void sendButtonCommands(bool* motorData){
   
+}
+
+unsigned char dirToByte(String dir) {
+  unsigned char charByte = 0;
+  for (int i = 0; i < dir.length(); i++) {
+    if (dir[i] == 'N') {
+      charByte |= 0x08;
+    } else if (dir[i] == 'S') {
+      charByte |= 0x04;
+    } else if (dir[i] == 'E') {
+      charByte |= 0x02;
+    } else {
+      charByte |= 0x01;
+    }
+  }
+  return charByte;
 }
 
