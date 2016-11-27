@@ -1,17 +1,17 @@
-#ifndef BLUETOOTH_trans
-#define BLUETOOTH_trans
+#ifndef BLUETOOTH_TRANSFER
+#define BLUETOOTH_TRANSFER
 #include "button.h"
 #define PRECISION 100
 #define MASK 0x01
 
-unsigned char directionToByte(String dir) {
+unsigned char directionToByte(String direction) {
 	unsigned char charByte = 0;
-	for (int i = 0; i < dir.length(); i++) {
-		if (dir[i] == 'N') {
+	for (int i = 0; i < direction.length(); i++) {
+		if (direction[i] == 'N') {
 			charByte |= 0x08;
-		} else if (dir[i] == 'S') {
+		} else if (direction[i] == 'S') {
 			charByte |= 0x04;
-		} else if (dir[i] == 'E') {
+		} else if (direction[i] == 'E') {
 			charByte |= 0x02;
 		} else {
 			charByte |= 0x01;
@@ -38,10 +38,10 @@ String byteToDirection(unsigned char data) {
 }
 
 void floatToBytes(float val, unsigned char* bytes) {
-	int trans = (int) (val * PRECISION);
+	int transfer = (int) (val * PRECISION);
 	for (int i = 3; i >= 0; i--) {
-		*(bytes + i) = (unsigned char) (0 | trans);
-		trans >>= 8;
+		*(bytes + i) = (unsigned char) (0 | transfer);
+		transfer >>= 8;
 	}
 }
 
@@ -56,62 +56,53 @@ float bytesToFloat(unsigned char* bytes) {
 
 unsigned char packageButtonData(int* buttons) {
 	unsigned char retval = 0;
-
-	retval |= (buttons[GO] & ~buttons[REVERSE]);
-	retval <<= 1;
-	retval |= (buttons[GO] | buttons[REVERSE]);
-	retval <<= 1;
-
-	retval |= (buttons[LEFT] & ~buttons[RIGHT]);
-	retval <<= 1;
-	retval |= (buttons[LEFT] | buttons[RIGHT]);
-	retval <<= 1;
-
-	retval |= buttons[HORN];
+	if (buttons[GO] && !buttons[REVERSE]) {
+		retval += 16;
+	}
+	if (buttons[REVERSE] && !buttons[GO]) {
+		retval += 8;
+	}
+	if (buttons[LEFT] && !buttons[RIGHT]) {
+		retval += 4;
+	}
+	if (buttons[RIGHT] && !buttons[LEFT]) {
+		retval += 2;
+	}
+	if (buttons[HORN]) {
+		retval += 1;
+	}
 	return retval;
 }
 
-void readPackageButtons(unsigned char packet, int* values) {
-	if (packet & MASK) {
-		values[HORN] = 1;
+void readPackageButtons(unsigned char packet, bool* values) {
+	if ((packet & 0x01) == 0x01) {
+		values[HORN] = true;
 	} else {
-		values[HORN] = 0;
+		values[HORN] = false;
 	}
-
-	packet >>= 1;
-
-	if (packet & MASK) {
-		packet >>= 1;
-		if (packet & MASK) {
-			values[LEFT] = 1;
-			values[RIGHT] = 0;
-		} else {
-			values[RIGHT] = 1;
-			values[LEFT] = 0;
-		}
-		packet >>= 1;
-	}	else {
-		packet >>= 2;
-		values[LEFT] = 0;
-		values[RIGHT] = 0;
+	
+	if ((packet & 0x02) == 0x02) {
+		values[RIGHT] = true;
+	} else {
+		values[RIGHT] = false;
 	}
-
-	if (packet & MASK) {
-		packet >>= 1;
-		if (packet & MASK) {
-			values[GO] = 1;
-			values[REVERSE] = 0;
-		}
-		else {
-			values[GO] = 0;
-			values[REVERSE] = 1;
-		}
-		packet >>= 1;
+	
+	if ((packet & 0x04) == 0x04) {
+		values[LEFT] = true;
+	} else {
+		values[LEFT] = false;
 	}
-	else {
-		packet >>= 2;
-		values[GO] = 0;
-		values[REVERSE] = 0;
+	
+	if ((packet & 0x08) == 0x08) {
+		values[REVERSE] = true;
+	} else {
+		values[REVERSE] = false;
+	}
+	
+	if ((packet & 0x10) == 0x10) {
+		values[GO] = true;
+	} else {
+		values[GO] = false;
 	}
 }
 #endif

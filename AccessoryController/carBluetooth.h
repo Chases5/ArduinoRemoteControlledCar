@@ -13,12 +13,24 @@ bool update(bool* carSignals, String dir) {
 	while (!Serial3.available()) {
 		delay(1);
 	}
-	unsigned char buttonData = (unsigned char) Serial3.read();
-	Serial3.print(sendData);
+	//unsigned char buttonData = (unsigned char) Serial3.read();
+  //Serial.println(buttonData);
+  char lowChar = (char)Serial3.read();
+  char highChar = (char)Serial3.read();
+  int dataInput;
+  if(highChar < 0){
+    dataInput = (int)lowChar - 48;
+  }
+  else{
+    int temp = 
+  }
+  
 	while (!Serial3.available()) {
 		delay(1);
 	}
 	char response = (char) Serial3.read();
+  Serial.println(response);
+  //readPackageButtons(buttonData, carSignals);
 	if (response == 'A') {
 		return true;
 	}

@@ -55,10 +55,10 @@ void loop() {
   //sendData(data,x,y);  
   update(dataRead, "SE");
   for(int i = 0 ; i < 5; i++){
-    Serial.print(dataRead[i]);
-    Serial.print(",");
+    //Serial.print(dataRead[i]);
+    //Serial.print(",");
   }
-  Serial.println("");
+  //Serial.println("");
   /*
   tone(5,500);
   delay(300);
