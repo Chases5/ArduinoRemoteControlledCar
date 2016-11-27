@@ -55,22 +55,27 @@ float bytesToFloat(unsigned char* bytes) {
 	return ((float) retval) / ((float) PRECISION);
 }
 
-
 unsigned char packageButtonData(int* buttons) {
 	unsigned char retval = 0;
-	retval += (16 * buttons[GO]);
-	retval += (8 * buttons[REVERSE]);
-	retval += (4 * buttons[LEFT]);
-	retval += (2 * buttons[RIGHT]);
-	retval += (1 * buttons[HORN]);
+	if (buttons[GO]) {
+		retval += 8;
+	}
+	if (buttons[REVERSE]) {
+		retval += 4;
+	}
+	if (buttons[LEFT]) {
+		retval += 2;
+	}
+	if (buttons[RIGHT]) {
+		retval += 1;
+	}
 	return retval;
 }
 
 void readPackageButtons(unsigned char packet, bool* values) {
-	values[GO] = (packet & 0x10) == 0x10;
-	values[REVERSE] = (packet & 0x08) == 0x08;
-	values[LEFT] = (packet & 0x04) == 0x04;
-	values[RIGHT] = (packet & 0x02) == 0x02;
-	values[HORN] = (packet & 0x01) == 0x01;
+	values[GO] = (packet & 0x08) == 0x08;
+	values[REVERSE] = (packet & 0x04) == 0x04;
+	values[LEFT] = (packet & 0x02) == 0x02;
+	values[RIGHT] = (packet & 0x01) == 0x01;
 }
 #endif
