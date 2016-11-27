@@ -55,55 +55,51 @@ float bytesToFloat(unsigned char* bytes) {
 	return ((float) retval) / ((float) PRECISION);
 }
 
-unsigned char packageButtonData(int* buttons) {
-	unsigned char retval = 0;
-	if (buttons[GO]) {
-		retval += 16;
+void packageButtonData(int* buttons, unsigned char* bytes) {
+	unsigned char first = 0;
+	if (buttons[HORN] == 1) {
+		*(bytes + 1) = 1;
+	} else {
+		*(bytes + 1) = 0;
 	}
-	if (buttons[REVERSE] && !buttons[GO]) {
-		retval += 8;
-	}
-	if (buttons[LEFT]) {
-		retval += 4;
-	}
-	if (buttons[RIGHT] && !buttons[LEFT]) {
-		retval += 2;
-	}
-	if (buttons[HORN]) {
-		retval += 1;
-	}
-	return retval;
+	
+	first += (8 * buttons[GO]);
+	first += (4 * button[REVERSE]);
+	first += (2 * button[LEFT]);
+	first += (1 * button[RIGHT]);
+	*(bytes + 0) = first;
 }
 
-void readPackageButtons(unsigned char packet, bool* values) {
-	if (packet & 0x01) {
+void readPackageButtons(unsigned char* packet, bool* values) {
+	if (*(packet + 1) == 1) {
 		values[HORN] = true;
 	} else {
 		values[HORN] = false;
 	}
 	
-	if (packet & 0x02) {
+	unsigned char first = *packet;
+	if ((first & 0x01) == 0x01) {
 		values[RIGHT] = true;
 	} else {
-		values[RIGHT] = false;
+		vaues[RIGHT] = false;
 	}
 	
-	if (packet & 0x04) {
+	if ((first & 0x02) == 0x02) {
 		values[LEFT] = true;
 	} else {
-		values[LEFT] = false;
+		vaues[LEFT] = false;
 	}
 	
-	if (packet & 0x08) {
+	if ((first & 0x04) == 0x04) {
 		values[REVERSE] = true;
 	} else {
-		values[REVERSE] = false;
+		vaues[REVERSE] = false;
 	}
 	
-	if (packet & 0x10) {
+	if ((first & 0x08) == 0x08) {
 		values[GO] = true;
 	} else {
-		values[GO] = false;
+		vaues[Go] = false;
 	}
 }
 #endif
