@@ -99,7 +99,7 @@ void readPackageButtons(unsigned char* packet, bool* values) {
 	if ((first & 0x08) == 0x08) {
 		values[GO] = true;
 	} else {
-		values[Go] = false;
+		values[GO] = false;
 	}
 }
 #endif

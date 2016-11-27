@@ -11,7 +11,7 @@ bool update(String* dir, int* buttons) {
 	if (Serial.available()) {
 		char value = (char) Serial.read();
 		if (value == 'R') {
-			unsigned char[2] sendBytes;
+			unsigned char sendBytes[2];
 			packageButtonData(buttons, sendBytes);
 			Serial.print(sendBytes[0]);
 			Serial.print(sendBytes[1]);
