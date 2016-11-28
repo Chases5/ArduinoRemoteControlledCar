@@ -13,7 +13,7 @@ CarLights carLights(A15, 39, 41, 6, 7, 43, 45);
 bool dataRead []= {false,false,false,false,false};
 
 void setup() {
-  //Wire.begin();
+  Wire.begin();
   initSerial();
   intiAccessories();
 }
@@ -65,6 +65,13 @@ void loop() {
   //carUpdate(dataRead, "SE");
   String compassReading = getCompassReading();
   carUpdate(compassReading);
+  if(buzzerHorn){
+    tone(buzzerPin,500);
+  }
+  else{
+    noTone(buzzerPin);
+  }
+  //updateBuzzer();
   /*
   tone(5,500);
   delay(300);
@@ -109,6 +116,10 @@ void carUpdate(String dir){
     }
     delay(1);
   }
+  Wire.beginTransmission(8);
+  Wire.write(button);
+  Wire.endTransmission();
+  setHorn(dataRead[4]);
 }
 
 void processButtonCommands(){
