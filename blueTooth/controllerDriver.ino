@@ -1,7 +1,7 @@
 #include <LiquidCrystal.h>
 #include "controllerBluetooth.h"
 #include "button.h"
-
+String oldDir;
 LiquidCrystal lcd(12, 11, 8, 7, 6, 5);
 void setup() {
   // put your setup code here, to run once:
@@ -10,21 +10,22 @@ void setup() {
   pinMode(13, OUTPUT);
   Serial.begin(9600);
   initializeButtons(2, 3, 9, 10, 4);
+  oldDir = "";
 }
 
 void loop() {
   // put your main code here, to run repeatedly:
-  int s[5] = {0, 0, 0, 0, 0};
-  readButtons(s);
+  int buttons[5] = {0, 0, 0, 0, 0};
+  readButtons(buttons);
   analogWrite(13, 100);
-  test(s);
+  test(buttons);
 }
 
-void test(int* b) {
+void test(int* buttonData) {
   if (Serial.available()) {
     char request = (char) Serial.read();
     if (request == 'R') {
-      unsigned char d = packageButtonsData(b);
+      unsigned char d = packageButtonsData(buttonData);
       Serial.write(d);
       unsigned long timeout = millis();
       while (!Serial.available()) {
@@ -33,11 +34,15 @@ void test(int* b) {
           return;
         }
       }
-      unsigned char a = (unsigned char) Serial.read();
-      String dir = byteToDir(a);
-      lcd.setCursor(0, 0);
-      lcd.print(dir);
+      unsigned char directionData = (unsigned char) Serial.read();
       Serial.print("A");
+      String dir = byteToDir(directionData);
+      if (dir != oldDir) {
+        lcd.clear();
+        lcd.setCursor(0, 0);
+        lcd.print(dir);
+        oldDir = dir;
+      }
     }
   }
 }
