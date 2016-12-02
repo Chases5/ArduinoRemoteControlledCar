@@ -26,6 +26,7 @@ void setup() {
 void displayInstructions() {
   Serial.println("Enter 0 to display packet information");
   Serial.println("Enter 1 to display sensor information");
+  mastToTerm++;
 }
 
 void displayPacketInfo() {
@@ -38,17 +39,20 @@ void displayPacketInfo() {
   Serial.println(mastToSlave);
   Serial.print("Slave to Master: ");
   Serial.println(slaveToMast);
+  mastToTerm++;
 }
 
 void displaySensorInfo() {
   Serial.println("Sensor information:");
   Serial.print("Compass reading: ");
   Serial.println(currDir);
+  mastToTerm++;
 }
 
 void loop() {
   if (Serial.available()) {
     char value = (char) Serial.read();
+    termToMast++;
     if (value == '0') {
       displayPacketInfo();
     } else if (value == '1') {
@@ -60,7 +64,7 @@ void loop() {
   // put your main code here, to run repeatedly:
   int buttons[5] = {0, 0, 0, 0, 0};
   readButtons(buttons);
-  analogWrite(13, 100);
+  analogWrite(13, 50);
   test(buttons);
 }
 
