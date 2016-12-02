@@ -7,7 +7,7 @@
 #include <Adafruit_BluefruitLE_SPI.h>
 #include <Adafruit_BluefruitLE_UART.h>
 
-void setup() {
+/*void setup() {
   // put your setup code here, to run once:
 
 }
@@ -15,4 +15,4 @@ void setup() {
 void loop() {
   // put your main code here, to run repeatedly:
 
-}
+}*/

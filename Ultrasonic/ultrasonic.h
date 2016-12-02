@@ -34,8 +34,11 @@ double getDistance() {
 	digitalWrite(trigPin, HIGH);
 	delay(1);
 	digitalWrite(trigPin, LOW);
-	double duration = pulseIn(echoPin, HIGH);
-	double distance = ((duration / 2) / 29.1); // cm
+    unsigned long duration = pulseIn(echoPin, HIGH, 5000);
+    if (duration == 0) {
+        return 0.0;
+    }
+	double distance = (((double) duration / 2.0) / 29.1); // cm
 	return distance;
 }
 #endif
