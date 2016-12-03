@@ -74,19 +74,19 @@ String determineDirection(double heading) {
   if (heading >= 337.5 || heading <= 22.5) {
     return "N";
   } else if (heading > 22.5 && heading < 67.5) {
-    return "NW";
+    return "NE";
   } else if (heading >= 67.5 && heading <= 112.5) {
-    return "W";
+    return "E";
   } else if (heading > 112.5 && heading < 157.5) {
-    return "SW";
+    return "SE";
   } else if (heading >= 157.5 && heading <= 202.5) {
     return "S";
   } else if (heading > 202.5 && heading < 247.5) {
-    return "SE";
+    return "SW";
   } else if (heading >= 247.5 && heading <= 292.5) {
-    return "E";
+    return "W";
   } else {
-    return "NE";
+    return "NW";
   }
 }
 
@@ -95,11 +95,8 @@ String determineDirection(double heading) {
  * x and y. The heading is returned.
  */
 double determineHeading(double x, double y) {
-  if (y > 0) {
-    return 90.0 - (atan(x / y)) * 180.0 / M_PI;
-  } else if (y < 0) {
-    return 270.0 - (atan(x / y)) * 180.0 / M_PI;
-  }
+  double heading = (atan2(y, x) * 180.0) / PI;
+  return heading < 0 ? heading + 360 : heading;
 }
 
 /*

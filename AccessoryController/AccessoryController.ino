@@ -9,8 +9,10 @@
 bool brake = false;
 double accelX;
 double accelY;
-CarLights carLights(A15, 39, 41, 6, 7, 43, 45);
+CarLights carLights(A14, 39, 41, 6, 7, 43, 45);
 bool dataRead []= {false,false,false,false,false};
+bool lastMessageGo = false;
+bool carLightData[] = {false,false,false};
 
 void setup() {
   Wire.begin();
@@ -29,6 +31,7 @@ void intiAccessories(){
     initUltrasonic(12,13);
     initAccelerometer();
     initializeBluetooth();
+    initUltrasonic(12,13);
 }
 
 void loop() {
@@ -38,7 +41,6 @@ void loop() {
   }
   carLights.update(brake, false, true);
   setReverse(true);
-  updateBuzzer();
   getAcceleration(&accelX,&accelY);
   String compassReading = getCompassReading();
 
@@ -63,28 +65,15 @@ void loop() {
   //Serial.println("");
   */
   //carUpdate(dataRead, "SE");
-  String compassReading = getCompassReading();
-  carUpdate(compassReading);
+  String compassData = getCompassReading();
+  carUpdate(compassData);
+  carLights.update(carLightData[0],carLightData[1],carLightData[2]);
   if(buzzerHorn){
     tone(buzzerPin,500);
   }
   else{
     noTone(buzzerPin);
   }
-  //updateBuzzer();
-  /*
-  tone(5,500);
-  delay(300);
-  noTone(5);
-  delay (300);
-  setHorn(true);
-  Serial.println("Compass");
-  Serial.println(getCompassReading());
-  Serial.println(getDistance());
-  Serial.print(accelX);
-  Serial.print(" ");
-  Serial.println(accelY);
-  */
 }
 
 void carUpdate(String dir){
@@ -99,13 +88,7 @@ void carUpdate(String dir){
   }
   unsigned char button = Serial2.read();
   readPackButtons(button, dataRead);
-  
-  for(int i = 0 ; i < 5; i++){
-      Serial.print(dataRead[i]);
-      Serial.print(",");
-    }
-    Serial.println("");
-    
+      
   unsigned char d = dirToByte(dir);
   Serial2.write(d);
   timeout = millis();
@@ -116,10 +99,39 @@ void carUpdate(String dir){
     }
     delay(1);
   }
+  //for(int i = 0; i < 5; i++){
+  //  Serial.print(dataRead[i]);
+  //  Serial.print(",");
+  //}
+  double ultraDist = getDistance();
+  if(ultraDist >= 8 && ultraDist < 60 && dataRead[GO]){
+    button -= 8;  
+  }
   Wire.beginTransmission(8);
   Wire.write(button);
   Wire.endTransmission();
   setHorn(dataRead[4]);
+  
+  if(!dataRead[GO] && !dataRead[REVERSE]){
+    brake = true;
+  }
+  if(dataRead[LEFT] && !dataRead[RIGHT]){
+    carLightData[0] = false;
+    carLightData[1] = true;
+    carLightData[2] = false;
+  } else if(dataRead[RIGHT] && !dataRead[LEFT]){
+    carLightData[0] = false;
+    carLightData[1] = false;
+    carLightData[2] = true;
+  } else if (dataRead[GO] || dataRead[REVERSE]){
+    carLightData[0] = false;
+    carLightData[1] = false;
+    carLightData[2] = false;
+  } else{
+    carLightData[0] = true;
+    carLightData[1] = false;
+    carLightData[2] = false;
+  }
 }
 
 void processButtonCommands(){
