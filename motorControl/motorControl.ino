@@ -18,11 +18,6 @@ void setup() {
 void receiveEvent(int howMany) {
   unsigned char packet = (unsigned char) Wire.read();
   readPackageButtons(packet, directions);
-  for (int i = 0; i < 4; i++) {
-    Serial.print(directions[i]);
-    Serial.print(",");
-  }
-  Serial.println("");
   if (!directions[GO] && !directions[REVERSE] && !directions[LEFT] && !directions[RIGHT]) {
     noMovement();
   } else if (directions[GO]) {
@@ -56,10 +51,10 @@ void readPackageButtons(unsigned char packet, bool* values) {
 }
 
 void driveForward(){
-  motor1.setSpeed(250);
-  motor2.setSpeed(250);
-  motor3.setSpeed(250);
-  motor4.setSpeed(250);
+  motor1.setSpeed(200);
+  motor2.setSpeed(200);
+  motor3.setSpeed(200);
+  motor4.setSpeed(200);
   motor1.run(FORWARD);
   motor2.run(FORWARD);
   motor3.run(FORWARD);
@@ -67,10 +62,10 @@ void driveForward(){
 }
 
 void driveReverse(){
-  motor1.setSpeed(250);
-  motor2.setSpeed(250);
-  motor3.setSpeed(250);
-  motor4.setSpeed(250);
+  motor1.setSpeed(200);
+  motor2.setSpeed(200);
+  motor3.setSpeed(200);
+  motor4.setSpeed(200);
   motor1.run(BACKWARD);
   motor2.run(BACKWARD);
   motor3.run(BACKWARD);
@@ -94,7 +89,9 @@ void driveRight(){
   motor2.setSpeed(250);
   motor2.run(FORWARD);
   motor3.setSpeed(0);
+  //motor3.run(BACKWARD);
   motor4.setSpeed(0);
+  //motor4.run(BACKWARD);
 }
 
 void driveReverseRight(){
@@ -110,7 +107,9 @@ void driveReverseRight(){
 
 void driveLeft(){
   motor1.setSpeed(0);
+  //motor1.run(BACKWARD);
   motor2.setSpeed(0);
+  //motor2.run(BACKWARD);
   motor3.setSpeed(250);
   motor3.run(FORWARD);
   motor4.setSpeed(250);

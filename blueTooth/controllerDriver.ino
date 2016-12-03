@@ -8,9 +8,7 @@ unsigned long termToMast, mastToTerm, mastToSlave, slaveToMast;
 
 LiquidCrystal lcd(12, 11, 8, 7, 6, 5);
 void setup() {
-  // put your setup code here, to run once:
   lcd.begin(16, 2);
-  // Print a message to the LCD.
   pinMode(13, OUTPUT);
   Serial.begin(9600);
   Serial3.begin(9600);
@@ -26,7 +24,8 @@ void setup() {
 void displayInstructions() {
   Serial.println("Enter 0 to display packet information");
   Serial.println("Enter 1 to display sensor information");
-  mastToTerm++;
+  Serial.println("");
+  mastToTerm += 3;
 }
 
 void displayPacketInfo() {
@@ -39,14 +38,16 @@ void displayPacketInfo() {
   Serial.println(mastToSlave);
   Serial.print("Slave to Master: ");
   Serial.println(slaveToMast);
-  mastToTerm++;
+  Serial.println("");
+  mastToTerm += 10;
 }
 
 void displaySensorInfo() {
   Serial.println("Sensor information:");
   Serial.print("Compass reading: ");
   Serial.println(currDir);
-  mastToTerm++;
+  Serial.println("");
+  mastToTerm += 4;
 }
 
 void loop() {
@@ -61,14 +62,13 @@ void loop() {
       displayInstructions();
     }
   }
-  // put your main code here, to run repeatedly:
   int buttons[5] = {0, 0, 0, 0, 0};
   readButtons(buttons);
   analogWrite(13, 50);
-  test(buttons);
+  communicate(buttons);
 }
 
-void test(int* buttonData) {
+void communicate(int* buttonData) {
   if (Serial3.available()) {
     char request = (char) Serial3.read();
     if (request == 'R') {
@@ -83,6 +83,11 @@ void test(int* buttonData) {
       }
       unsigned char directionData = (unsigned char) Serial3.read();
       Serial3.print("A");
+      // sending the acknowledgement means message was completed successfully
+      // master and slave both communicate one message at a time so we will
+      // increment both counts together (2 packets each).
+      slaveToMast += 2;
+      mastToSlave += 2;
       String dir = byteToDir(directionData);
       if (dir != currDir) {
         lcd.clear();
@@ -98,7 +103,6 @@ unsigned char packageButtonsData(int* buttons) {
   if (buttons[HORN]) {
     retval += 16;
   }
-  
   if (buttons[GO]) {
     retval += 8;
   }
