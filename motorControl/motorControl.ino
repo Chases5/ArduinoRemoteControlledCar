@@ -51,10 +51,10 @@ void readPackageButtons(unsigned char packet, bool* values) {
 }
 
 void driveForward(){
-  motor1.setSpeed(200);
-  motor2.setSpeed(200);
-  motor3.setSpeed(200);
-  motor4.setSpeed(200);
+  motor1.setSpeed(250);
+  motor2.setSpeed(250);
+  motor3.setSpeed(250);
+  motor4.setSpeed(250);
   motor1.run(FORWARD);
   motor2.run(FORWARD);
   motor3.run(FORWARD);
@@ -62,10 +62,10 @@ void driveForward(){
 }
 
 void driveReverse(){
-  motor1.setSpeed(200);
-  motor2.setSpeed(200);
-  motor3.setSpeed(200);
-  motor4.setSpeed(200);
+  motor1.setSpeed(250);
+  motor2.setSpeed(250);
+  motor3.setSpeed(250);
+  motor4.setSpeed(250);
   motor1.run(BACKWARD);
   motor2.run(BACKWARD);
   motor3.run(BACKWARD);
@@ -77,9 +77,9 @@ void driveForwardRight(){
   motor1.run(FORWARD);
   motor2.setSpeed(250);
   motor2.run(FORWARD);
-  motor3.setSpeed(125);
+  motor3.setSpeed(50);
   motor3.run(FORWARD);
-  motor4.setSpeed(125);
+  motor4.setSpeed(50);
   motor4.run(FORWARD);
 }
 
@@ -88,10 +88,10 @@ void driveRight(){
   motor1.run(FORWARD);
   motor2.setSpeed(250);
   motor2.run(FORWARD);
-  motor3.setSpeed(0);
-  //motor3.run(BACKWARD);
-  motor4.setSpeed(0);
-  //motor4.run(BACKWARD);
+  motor3.setSpeed(250);
+  motor3.run(BACKWARD);
+  motor4.setSpeed(250);
+  motor4.run(BACKWARD);
 }
 
 void driveReverseRight(){
@@ -99,17 +99,17 @@ void driveReverseRight(){
   motor1.run(BACKWARD);
   motor2.setSpeed(250);
   motor2.run(BACKWARD);
-  motor3.setSpeed(125);
+  motor3.setSpeed(50);
   motor3.run(BACKWARD);
-  motor4.setSpeed(125);
+  motor4.setSpeed(50);
   motor4.run(BACKWARD);
 }
 
 void driveLeft(){
-  motor1.setSpeed(0);
-  //motor1.run(BACKWARD);
-  motor2.setSpeed(0);
-  //motor2.run(BACKWARD);
+  motor1.setSpeed(250);
+  motor1.run(BACKWARD);
+  motor2.setSpeed(250);
+  motor2.run(BACKWARD);
   motor3.setSpeed(250);
   motor3.run(FORWARD);
   motor4.setSpeed(250);
@@ -117,9 +117,9 @@ void driveLeft(){
 }
 
 void driveForwardLeft(){
-  motor1.setSpeed(125);
+  motor1.setSpeed(50);
   motor1.run(FORWARD);
-  motor2.setSpeed(125);
+  motor2.setSpeed(50);
   motor2.run(FORWARD);
   motor3.setSpeed(250);
   motor3.run(FORWARD);
@@ -128,9 +128,9 @@ void driveForwardLeft(){
 }
 
 void driveReverseLeft(){
-  motor1.setSpeed(125);
+  motor1.setSpeed(50);
   motor1.run(BACKWARD);
-  motor2.setSpeed(125);
+  motor2.setSpeed(50);
   motor2.run(BACKWARD);
   motor3.setSpeed(250);
   motor3.run(BACKWARD);
