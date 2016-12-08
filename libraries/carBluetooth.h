@@ -5,5 +5,4 @@
 void initializeBluetooth() {
 	Serial2.begin(9600);
 }
-
 #endif
