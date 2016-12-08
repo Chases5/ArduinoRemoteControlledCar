@@ -1,3 +1,12 @@
+//==========================================================
+// Written by: Tyler Carlile and Chase Skelton
+// Date: 11/8/2016
+// Last Modification: 12/7/2016
+//==========================================================
+// This file is only used to test the the LCD. The actual
+// LCD call is used in Controller driver.
+//==========================================================
+
 #include <LiquidCrystal.h>
 
 // initialize the library with the numbers of the interface pins

@@ -1,3 +1,12 @@
+//==========================================================
+// Written by: Tyler Carlile and Chase Skelton
+// Date: 11/8/2016
+// Last Modification: 12/7/2016
+//==========================================================
+// Accessory Controller handles everything that is needed
+// to run the car.
+//==========================================================
+
 #include <CarLights.h>
 #include "Buzzer.h"
 #include "Compass.h"
@@ -14,6 +23,11 @@ bool dataRead []= {false,false,false,false,false};
 bool lastMessageGo = false;
 bool carLightData[] = {false,false,false};
 
+/* 
+ * begin the Wire, Serial and call the init functions
+ * on the included libraries.
+ */
+ 
 void setup() {
   Wire.begin();
   initSerial();
@@ -34,37 +48,14 @@ void intiAccessories(){
     initUltrasonic(12,13);
 }
 
+/*
+ * Read the data from the compass send the compass data to the
+ * controller and read the controller instructions and send them
+ * to the motor. Then update the lights and horn based on input
+ * from the controller.
+ */
+ 
 void loop() {
-  /*
-  if (Serial.read() - 48 == 1) {
-     brake = !brake; 
-  }
-  carLights.update(brake, false, true);
-  setReverse(true);
-  getAcceleration(&accelX,&accelY);
-  String compassReading = getCompassReading();
-
-  //Serial2.write(messageOut);
-  */
- /*
-  unsigned char i2cMessage;
-  float x = 4.0;
-  float y = 5.0;
-  //getAcceleration(x,y);
-  String data = "SE";
-  //sendData(data,x,y);
-  //delay(2000);
-  data = "N";
-  //sendData(data,x,y);  
-  carUpdate(dataRead, "SE");
-    for(int i = 0 ; i < 5; i++){
-      Serial.print(dataRead[i]);
-      Serial.print(",");
-    }
-    Serial.println("");
-  //Serial.println("");
-  */
-  //carUpdate(dataRead, "SE");
   String compassData = getCompassReading();
   carUpdate(compassData);
   carLights.update(carLightData[0],carLightData[1],carLightData[2]);
@@ -76,11 +67,15 @@ void loop() {
   }
 }
 
+/*
+ * Request data from the controller and wait to receive it
+ * read the data and write back the ack. Send the data to
+ * the motor controller and update the lights and horn.
+ */
 void carUpdate(String dir){
   Serial2.print("R");
   unsigned long timeout = millis();
   while(!Serial2.available()){
-    //Serial.print(Serial2.available());
     if(millis() - timeout >= 1000){
       return;
     }
@@ -99,10 +94,7 @@ void carUpdate(String dir){
     }
     delay(1);
   }
-  //for(int i = 0; i < 5; i++){
-  //  Serial.print(dataRead[i]);
-  //  Serial.print(",");
-  //}
+
   double ultraDist = getDistance();
   if(ultraDist >= 8 && ultraDist < 60 && dataRead[GO]){
     button -= 8;  
@@ -134,24 +126,11 @@ void carUpdate(String dir){
   }
 }
 
-void processButtonCommands(){
-    bool toMotor [] = {false,false,false,false};
-    if(dataRead[0] == true){
-      setHorn(true);
-    }
-    else{
-      setHorn(false);
-    }
-    for(int i = 0; i < 5; i ++){
-      toMotor[i] = dataRead[i + 1];
-    }
-    sendButtonCommands(toMotor);
-}
-
-void sendButtonCommands(bool* motorData){
-  
-}
-
+/*
+ * Convert the String value that we get from
+ * the compass function into a byte to send to the 
+ * controller.
+ */
 unsigned char dirToByte(String dir) {
   unsigned char charByte = 0;
   for (int i = 0; i < dir.length(); i++) {
@@ -168,6 +147,11 @@ unsigned char dirToByte(String dir) {
   return charByte;
 }
 
+/*
+ * Convert the unsigned char packed that was received from the 
+ * controller set the data in the passed boolean array at the
+ * direction values.
+ */
 void readPackButtons(unsigned char packet, bool* values) {
   values[HORN] = (packet & 0x10) == 0x10;
   values[GO] = (packet & 0x08) == 0x08;
