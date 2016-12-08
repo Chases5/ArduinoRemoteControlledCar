@@ -1,7 +1,7 @@
 //==================================================================
 // Written by Tyler Carlile and Chase Skelton
 // Date: 11/8/2016
-// Last Modification: 11/8/2016
+// Last Modification: 12/8/2016
 //==================================================================
 // Declares the magnetometer that will be used to get the direction
 // in which the car is facing. Functions allow user to get the
@@ -71,6 +71,9 @@ void readMag(double* x, double* y, double* z) {
  * and returned.
  */
 String determineDirection(double heading) {
+  /*
+   * Uses the heading to determine the Compass reading
+   */
   if (heading >= 337.5 || heading <= 22.5) {
     return "N";
   } else if (heading > 22.5 && heading < 67.5) {

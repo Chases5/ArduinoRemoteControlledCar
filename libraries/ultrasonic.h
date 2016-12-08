@@ -1,7 +1,7 @@
 //==========================================================
 // Written by: Tyler Carlile and Chase Skelton
 // Date: 11/8/2016
-// Last Modification: 11/8/2016
+// Last Modification: 12/8/2016
 //==========================================================
 // Used to determine how far the ultrasonic sensor is from
 // an object in centimeters.
@@ -35,10 +35,14 @@ double getDistance() {
 	delay(1);
 	digitalWrite(trigPin, LOW);
     unsigned long duration = pulseIn(echoPin, HIGH, 5000);
+    /*
+     * If it timed out, we are not close enough to anything, 
+     * return -1 to indicate a timeout.
+     */
     if (duration == 0) {
         return -1.0;
     }
-	double distance = (((double) duration / 2.0) / 29.1); // cm
+	double distance = (((double) duration / 2.0) / 29.1); // convert to cm
 	return distance;
 }
 #endif
