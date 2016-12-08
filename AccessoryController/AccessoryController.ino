@@ -12,8 +12,6 @@
 #include "Compass.h"
 #include "Ultrasonic.h"
 #include <Wire.h>
-#include "carBluetooth.h"
-#include "bluetoothTransfer.h";
 
 bool brake = false;
 double accelX;
@@ -44,7 +42,6 @@ void intiAccessories(){
     initCompass();
     initUltrasonic(12,13);
     initAccelerometer();
-    initializeBluetooth();
     initUltrasonic(12,13);
 }
 
