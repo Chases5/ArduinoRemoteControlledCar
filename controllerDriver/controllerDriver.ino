@@ -1,5 +1,4 @@
 #include <LiquidCrystal.h>
-#include "controllerBluetooth.h"
 #include "button.h"
 String currDir;
 
